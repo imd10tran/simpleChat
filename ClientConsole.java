@@ -179,12 +179,12 @@ public class ClientConsole implements ChatIF
     String host = "";
     String id = "Bi";
     int port = 0;
-//    try {
-//    	id = args[0];
-//    }catch (ArrayIndexOutOfBoundsException e) {
-//    	System.out.println("ERROR - No login ID specified. Connection aborted.");
-//    	System.exit(0);
-//    }
+    try {
+    	id = args[0];
+    }catch (ArrayIndexOutOfBoundsException e) {
+    	System.out.println("ERROR - No login ID specified. Connection aborted.");
+    	System.exit(0);
+    }
 
     try
     {
