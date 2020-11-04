@@ -48,8 +48,32 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
-    System.out.println("Message received: " + msg + " from " + client);
-    this.sendToAllClients(msg);
+	  if (client.getInfo("login")==null) {
+		  client.setInfo("login",true);
+		  System.out.println("Message received: " + msg+ " from " + client.getInfo("id"));
+		  client.setInfo("id",processMessage((String)msg));
+		  System.out.println(client.getInfo("id")+" has logged on.");
+		  try {
+			client.sendToClient(client.getInfo("id")+" has logged on.");
+		} catch (IOException e) {
+		}
+	  }else if ((((String) msg).contains("#login")) && (client.getInfo("login").equals(true))){
+		  System.out.println("An error has occured.");
+	  }else {
+	  System.out.println("Message received: " + msg + " from " + client.getInfo("id"));
+	  this.sendToAllClients(client.getInfo("id")+": "+msg);
+	  }
+  }
+  
+  private String processMessage(String message) {
+	  String finished = "";
+	  String[] firstProcess = message.split(" ");
+	  finished = firstProcess[1];
+	  String[] secondProcess = finished.split("<");
+	  finished = secondProcess[1];
+	  String [] finalProcess = finished.split(">");
+	  finished = finalProcess[0];
+	  return finished;
   }
     
   /**
@@ -62,6 +86,11 @@ public class EchoServer extends AbstractServer
       ("Server listening for connections on port " + getPort());
   }
   
+  protected void clientConnected(ConnectionToClient client) {
+//	  System.out.println("Client: "+client.toString()+" has connected.");
+//	  System.out.println("Count: "+this.getNumberOfClients());
+  }
+  
   /**
    * This method overrides the one in the superclass.  Called
    * when the server stops listening for connections.
@@ -70,6 +99,23 @@ public class EchoServer extends AbstractServer
   {
     System.out.println
       ("Server has stopped listening for connections.");
+    
+  }
+  
+  synchronized protected void clientDisconnected(ConnectionToClient client) {
+	  System.out.println("Client: "+client.getInfo("id")+" has disconnected.");
+	  this.sendToAllClients("Client: "+client.getInfo("id")+" has disconnected.");
+	  client.setInfo("login",false);
+	  
+  }
+  
+  public void quit() {
+	  try {
+		  this.close();
+	  } catch (IOException e) {
+		  
+	  }
+	  System.exit(0);
   }
   
   //Class methods ***************************************************
@@ -99,6 +145,7 @@ public class EchoServer extends AbstractServer
     try 
     {
       sv.listen(); //Start listening for connections
+      
     } 
     catch (Exception ex) 
     {
