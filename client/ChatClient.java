@@ -68,6 +68,9 @@ public class ChatClient extends AbstractClient
     clientUI.display(msg.toString());
   }
   
+  /**
+   * This method will tell the user that the connection has been closed.
+   */
   protected void connectionClosed() {
 	  clientUI.display("The connection has closed.");
   }

@@ -65,6 +65,11 @@ public class EchoServer extends AbstractServer
 	  }
   }
   
+  /**
+   * This method will process inputs from the user that goes with the format of #setport <port> for example.
+   * @param message
+   * @return finished
+   */
   private String processMessage(String message) {
 	  String finished = "";
 	  String[] firstProcess = message.split(" ");
@@ -101,7 +106,10 @@ public class EchoServer extends AbstractServer
       ("Server has stopped listening for connections.");
     
   }
-  
+  /**
+   * This method ovverides the one in the superclass. 
+   * called when a client had disconnected.
+   */
   synchronized protected void clientDisconnected(ConnectionToClient client) {
 	  System.out.println("Client: "+client.getInfo("id")+" has disconnected.");
 	  this.sendToAllClients("Client: "+client.getInfo("id")+" has disconnected.");
@@ -109,6 +117,9 @@ public class EchoServer extends AbstractServer
 	  
   }
   
+  /**
+   * This method terminates the server
+   */
   public void quit() {
 	  try {
 		  this.close();

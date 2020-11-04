@@ -4,10 +4,17 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ServerConsole implements ChatIF {
+	/*
+	 * Instance variables
+	 */
 	final public static int DEFAULT_PORT = 5555;
 	private EchoServer server;
 	private Scanner fromConsole;
 	
+	/**
+	 * Constructor
+	 * @param port
+	 */
 	public ServerConsole (int port) {
 		server = new EchoServer(port);
 		try 
@@ -27,6 +34,10 @@ public class ServerConsole implements ChatIF {
 		System.out.println("SERVER MSG> " + message);
 	}
 	
+	/**
+	 * This is similar to the ClientConsole where it will constantly be looking for the user input.
+	 * This handles any kind of functionality that the user might want to perform.
+	 */
 	public void accept() {
 		try {
 			String message;
@@ -66,6 +77,11 @@ public class ServerConsole implements ChatIF {
 		}
 	}
 	
+	/**
+	   * This method will process inputs from the user that goes with the format of #setport <port> for example.
+	   * @param message
+	   * @return finished
+	   */
 	private String processMessage(String message) {
 		  String finished = "";
 		  String[] firstProcess = message.split(" ");
@@ -77,6 +93,10 @@ public class ServerConsole implements ChatIF {
 		  return finished;
 	  }
 	
+	/**
+	 * Creation of the server UI
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		int port = 0;
 		

@@ -73,6 +73,7 @@ public class ClientConsole implements ChatIF
   /**
    * This method waits for input from the console.  Once it is 
    * received, it sends it to the client's message handler.
+   * This also accepts or reads any function that the user wants to perform.
    */
   public void accept() 
   {
@@ -142,7 +143,11 @@ public class ClientConsole implements ChatIF
     }
   }
   
-  
+  /**
+   * This method will process inputs from the user that goes with the format of #setport <port> for example.
+   * @param message
+   * @return finished
+   */
   private String processMessage(String message) {
 	  String finished = "";
 	  String[] firstProcess = message.split(" ");
@@ -177,7 +182,7 @@ public class ClientConsole implements ChatIF
   {
 	Scanner fromConsole = new Scanner(System.in);
     String host = "";
-    String id = "Bi";
+    String id = "";
     int port = 0;
     try {
     	id = args[0];
